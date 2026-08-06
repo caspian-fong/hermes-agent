@@ -3693,6 +3693,14 @@ def _disable_prompt_toolkit_cpr(app) -> None:
         pass
 
 
+def _disable_prompt_toolkit_cpr_warning(app) -> None:
+    """Let prompt_toolkit fall back from CPR without printing into the prompt."""
+    try:
+        app.renderer.cpr_not_supported_callback = None
+    except Exception:
+        pass
+
+
 def _terminal_may_leak_cpr() -> bool:
     """Whether classic CLI should suppress prompt_toolkit CPR (ESC[6n) queries.
 
