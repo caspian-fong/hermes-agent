@@ -15762,6 +15762,16 @@ class HermesCLI(CLIAgentSetupMixin, CLICommandsMixin, CLIBillingMixin):
                 self._clarify_state["selected"] = min(max_idx, self._clarify_state["selected"] + 1)
                 event.app.invalidate()
 
+        @kb.add('left', filter=Condition(lambda: bool(self._clarify_state) and not self._clarify_freetext))
+        def clarify_left(event):
+            """Silently consume left arrow (unused in clarify dialog)."""
+            event.app.invalidate()
+
+        @kb.add('right', filter=Condition(lambda: bool(self._clarify_state) and not self._clarify_freetext))
+        def clarify_right(event):
+            """Silently consume right arrow (unused in clarify dialog)."""
+            event.app.invalidate()
+
         # multi-select support: Space toggles the checkbox at the current cursor position
         @kb.add('space', filter=Condition(lambda: bool(self._clarify_state) and not self._clarify_freetext and self._clarify_state.get("multi_select")))
         def clarify_toggle(event):
